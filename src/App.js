@@ -11,7 +11,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.websocket = new WebSocket("ws://http://139.162.254.62/ws");
+    this.websocket = new WebSocket("ws://139.162.254.62/ws");
     this.websocket.onmessage = this.handleMessage;
     this.websocket.onerror = this.handleError
   }
