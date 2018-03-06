@@ -82,7 +82,7 @@ class App extends Component {
         {!usernameConfirmed ?
           <div className="Login-div">
             <p style={{ fontWeight: "bold", fontSize: "16px" }}>Anna käyttäjänimi</p>
-            <input className="Login-input" value={this.state.username} onChange={this.changeUsername} />
+            <input className="Login-input" value={this.state.username} onChange={this.changeUsername} type="text" />
             <div className="Ok-button" onClick={this.confirmUsername}>Ok</div>
           </div> :
           <div className="Chat-window">
@@ -91,7 +91,7 @@ class App extends Component {
             </div>
             <form onSubmit={this.sendMessage}>
               <div className="Chat-input">
-                <input className="Chat-inputfield" onChange={this.handleMessageChange} value={this.state.message} />
+                <input className="Chat-inputfield" onChange={this.handleMessageChange} value={this.state.message} type="text" />
                 <div className="Send-button" onClick={this.sendMessage}>Lähetä</div>
               </div>
             </form>
