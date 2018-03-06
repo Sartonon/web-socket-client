@@ -2,12 +2,27 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
+const colors = [
+  "red",
+  "orange",
+  "brown",
+  "blue",
+  "green",
+  "violet",
+  "black",
+];
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
 class App extends Component {
   state = {
     messages: [],
     username: "",
     usernameConfirmed: false,
-    message: ""
+    message: "",
+    color: 0,
   };
 
   componentDidMount() {
@@ -50,7 +65,8 @@ class App extends Component {
     e.preventDefault();
     this.websocket.send(JSON.stringify({
       name: this.state.username,
-      message: this.state.message
+      message: this.state.message,
+      color: colors[this.state.color]
     }));
     this.setState({ message: "" });
   };
@@ -70,7 +86,10 @@ class App extends Component {
   };
 
   confirmUsername = () => {
-    this.setState({ usernameConfirmed: true })
+    this.setState({
+      usernameConfirmed: true,
+      color: getRandomInt(6)
+    });
   };
 
   handleMessageChange = (e) => {
@@ -81,8 +100,8 @@ class App extends Component {
     return this.state.messages.map((message, i) => {
       return (
         <div className="Message-wrapper" key={i}>
-          <div className="Message-block" key={i} style={{ float: i % 2 === 0 ? "left" : "right" }}>
-            <div className="Message-name">{message.name}</div>
+          <div className="Message-block" key={i} style={{ float: message.name === this.state.username ? "right" : "left" }}>
+            <div className="Message-name" style={{ color: message.color }}>{message.name}</div>
             <div className="Message-content">{message.message}</div>
           </div>
         </div>
