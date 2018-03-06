@@ -13,8 +13,13 @@ class App extends Component {
   componentDidMount() {
     this.websocket = new WebSocket("ws://139.162.254.62/ws");
     this.websocket.onmessage = this.handleMessage;
-    this.websocket.onerror = this.handleError
+    this.websocket.onerror = this.handleError;
+    this.websocket.onclose = this.handleOnClose;
   }
+
+  handleOnClose = () => {
+    this.websocket = new WebSocket("ws://139.162.254.62/ws");
+  };
 
   handleError = () => {
 
@@ -31,7 +36,7 @@ class App extends Component {
   handleMessage = (e) => {
     this.setState({ messages: [ ...this.state.messages, JSON.parse(e.data) ] });
     setTimeout(() => {
-      var objDiv = document.getElementById("chatwindow");
+      const objDiv = document.getElementById("chatwindow");
       objDiv.scrollTop = objDiv.scrollHeight;
     }, 200);
   };
