@@ -11,18 +11,23 @@ class App extends Component {
   };
 
   componentDidMount() {
+    this.initWebSocket();
+  }
+
+  initWebSocket = () => {
     this.websocket = new WebSocket("ws://139.162.254.62/ws");
     this.websocket.onmessage = this.handleMessage;
     this.websocket.onerror = this.handleError;
     this.websocket.onclose = this.handleOnClose;
-  }
-
-  handleOnClose = () => {
-    this.websocket = new WebSocket("ws://139.162.254.62/ws");
   };
 
-  handleError = () => {
+  handleOnClose = () => {
+    console.log("Connection closed, starting new one...");
+    this.initWebSocket();
+  };
 
+  handleError = (error) => {
+    console.log("error: ", error);
   };
 
   sendMessage = () => {
