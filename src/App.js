@@ -2,16 +2,6 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const colors = [
-  "red",
-  "orange",
-  "brown",
-  "blue",
-  "green",
-  "violet",
-  "black",
-];
-
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
@@ -66,7 +56,7 @@ class App extends Component {
     this.websocket.send(JSON.stringify({
       name: this.state.username,
       message: this.state.message,
-      color: colors[this.state.color]
+      color: this.state.color,
     }));
     this.setState({ message: "" });
   };
@@ -88,7 +78,7 @@ class App extends Component {
   confirmUsername = () => {
     this.setState({
       usernameConfirmed: true,
-      color: getRandomInt(6)
+      color: `rgb(${getRandomInt(255)}, ${getRandomInt(255)}, ${getRandomInt(255)})`,
     });
   };
 
