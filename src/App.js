@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
@@ -10,8 +11,24 @@ class App extends Component {
   };
 
   componentDidMount() {
+    this.getMessages();
     this.initWebSocket();
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.usernameConfirmed && this.state.usernameConfirmed) {
+      const objDiv = document.getElementById("chatwindow");
+      if (objDiv) {
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }
+    }
+  }
+
+  getMessages = async () => {
+    const { data } = await axios.get("http://139.162.254.62/api/messages");
+    console.log(data);
+    this.setState({ messages: data });
+  };
 
   initWebSocket = () => {
     this.websocket = new WebSocket("ws://139.162.254.62/ws");
@@ -42,7 +59,9 @@ class App extends Component {
     this.setState({ messages: [ ...this.state.messages, JSON.parse(e.data) ] });
     setTimeout(() => {
       const objDiv = document.getElementById("chatwindow");
-      objDiv.scrollTop = objDiv.scrollHeight;
+      if (objDiv) {
+        objDiv.scrollTop = objDiv.scrollHeight;
+      }
     }, 200);
   };
 
