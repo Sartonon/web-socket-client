@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import tausta from './tausta.png';
 
 class App extends Component {
   state = {
@@ -30,7 +29,8 @@ class App extends Component {
     console.log("error: ", error);
   };
 
-  sendMessage = () => {
+  sendMessage = (e) => {
+    e.preventDefault();
     this.websocket.send(JSON.stringify({
       name: this.state.username,
       message: this.state.message
@@ -61,7 +61,7 @@ class App extends Component {
   renderMessages = () => {
     return this.state.messages.map((message, i) => {
       return (
-        <div className="Message-wrapper">
+        <div className="Message-wrapper" key={i}>
           <div className="Message-block" key={i} style={{ float: i % 2 === 0 ? "left" : "right" }}>
             <div className="Message-name">{message.name}</div>
             <div className="Message-content">{message.message}</div>
@@ -72,11 +72,10 @@ class App extends Component {
   };
 
   render() {
-    const { usernameConfirmed, messages } = this.state;
-    console.log(messages);
+    const { usernameConfirmed } = this.state;
 
     return (
-      <div className="App" style={{ backgroundImage: `url(${tausta})` }}>
+      <div className="App">
         <header className="App-header">
           <h1 className="App-title">Chat</h1>
         </header>
@@ -86,14 +85,16 @@ class App extends Component {
             <input className="Login-input" value={this.state.username} onChange={this.changeUsername} />
             <div className="Ok-button" onClick={this.confirmUsername}>Ok</div>
           </div> :
-          <div className="Chat-window" style={{ backgroundImage: `url(${tausta})` }}>
+          <div className="Chat-window">
             <div id="chatwindow" className="Message-div">
               {this.renderMessages()}
             </div>
-            <div className="Chat-input">
-              <input className="Chat-inputfield" onChange={this.handleMessageChange} value={this.state.message} />
-              <div className="Send-button" onClick={this.sendMessage}>Lähetä</div>
-            </div>
+            <form onSubmit={this.sendMessage}>
+              <div className="Chat-input">
+                <input className="Chat-inputfield" onChange={this.handleMessageChange} value={this.state.message} />
+                <div className="Send-button" onClick={this.sendMessage}>Lähetä</div>
+              </div>
+            </form>
           </div>
         }
       </div>

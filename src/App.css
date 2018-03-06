@@ -38,7 +38,6 @@
 }
 
 .Chat-window {
-  max-width: 500px;
   margin: 0 5px;;
   margin: auto;
   position: relative;
@@ -121,6 +120,8 @@
 .Message-div {
   height: calc(100% - 60px);
   overflow: auto;
+  max-width: 500px;
+  margin: auto;
 }
 
 @keyframes App-logo-spin {
