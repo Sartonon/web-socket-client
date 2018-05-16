@@ -18,6 +18,9 @@ class App extends Component {
   componentDidMount() {
     this.getMessages();
     this.initWebSocket();
+    setInterval({
+
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -78,7 +81,7 @@ class App extends Component {
   confirmUsername = () => {
     this.setState({
       usernameConfirmed: true,
-      color: `rgb(${getRandomInt(255)}, ${getRandomInt(255)}, ${getRandomInt(255)})`,
+      color: 'green',
     });
   };
 
