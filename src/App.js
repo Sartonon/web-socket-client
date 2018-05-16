@@ -18,9 +18,6 @@ class App extends Component {
   componentDidMount() {
     this.getMessages();
     this.initWebSocket();
-    setInterval({
-
-    });
   }
 
   componentDidUpdate(prevProps, prevState) {
