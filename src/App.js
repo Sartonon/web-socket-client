@@ -75,11 +75,22 @@ class App extends Component {
     this.setState({ username: e.target.value })
   };
 
+  startSending = () => {
+    setInterval(() => {
+      this.websocket.send(JSON.stringify({
+        name: 'Santeri',
+        message: 'Moikka!',
+        color: 'green',
+      }));
+    }, this.state.interval || 1000);
+  };
+
   confirmUsername = () => {
     this.setState({
       usernameConfirmed: true,
       color: 'green',
     });
+    // this.startSending();
   };
 
   handleMessageChange = (e) => {
@@ -106,6 +117,8 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Chat</h1>
+          <button onClick={this.startSending}>Laheta</button>
+          <input onChange={e => this.setState({ interval: e.target.value })} />
         </header>
         {!usernameConfirmed ?
           <div className="Login-div">
