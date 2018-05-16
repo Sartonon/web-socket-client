@@ -27,6 +27,10 @@ class App extends Component {
         objDiv.scrollTop = objDiv.scrollHeight;
       }
     }
+
+    if (this.state.messages.length > 10) {
+      this.setState({ messages: [] });
+    }
   }
 
   getMessages = async () => {
