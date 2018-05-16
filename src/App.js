@@ -76,7 +76,8 @@ class App extends Component {
   };
 
   startSending = () => {
-    setInterval(() => {
+    if (this.messageInterval) clearInterval(this.messageInterval);
+    this.messageInterval = setInterval(() => {
       this.websocket.send(JSON.stringify({
         name: 'Santeri',
         message: 'Moikka!',
