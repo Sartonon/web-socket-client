@@ -16,7 +16,7 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.getMessages();
+    // this.getMessages();
     this.initWebSocket();
   }
 
