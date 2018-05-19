@@ -17,7 +17,6 @@ class App extends Component {
 
   componentDidMount() {
     // this.getMessages();
-    this.initWebSocket();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -95,7 +94,7 @@ class App extends Component {
       usernameConfirmed: true,
       color: 'green',
     });
-    // this.startSending();
+    this.initWebSocket();
   };
 
   handleMessageChange = (e) => {
